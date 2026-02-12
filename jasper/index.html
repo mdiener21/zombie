@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ninja vs Zombies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Canvas for game rendering -->
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- HUD Overlay -->
+        <div id="hud" class="hidden">
+            <div class="hud-top">
+                <div class="health-section">
+                    <div class="bar-label">HP</div>
+                    <div class="bar-container">
+                        <div id="health-bar" class="bar health-bar"></div>
+                    </div>
+                </div>
+                <div class="score-section">
+                    <div class="score">SCORE: <span id="score">0</span></div>
+                    <div class="combo">COMBO: <span id="combo">0</span></div>
+                </div>
+                <div class="energy-section">
+                    <div class="bar-label">ENERGY</div>
+                    <div class="bar-container">
+                        <div id="energy-bar" class="bar energy-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="level-indicator" class="level-indicator"></div>
+        </div>
+        
+        <!-- Touch Controls -->
+        <div id="controls" class="hidden">
+            <div class="control-left">
+                <div id="joystick-zone">
+                    <div id="joystick-base"></div>
+                    <div id="joystick-knob"></div>
+                </div>
+            </div>
+            <div class="control-right">
+                <div class="action-buttons">
+                    <div id="btn-jump" class="action-btn jump-btn">JUMP</div>
+                    <div id="btn-attack" class="action-btn attack-btn">ATK</div>
+                    <div id="btn-kick" class="action-btn kick-btn">KICK</div>
+                    <div id="btn-special" class="action-btn special-btn">SPEC</div>
+                    <div id="btn-block" class="action-btn block-btn">BLOCK</div>
+                    <div id="btn-dash" class="action-btn dash-btn">DASH</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Menu -->
+        <div id="main-menu" class="menu-overlay">
+            <div class="menu-content">
+                <h1 class="game-title">🥷 NINJA VS ZOMBIES 🧟</h1>
+                <div class="menu-buttons">
+                    <button id="btn-story" class="menu-btn">STORY MODE</button>
+                    <button id="btn-survival" class="menu-btn">SURVIVAL MODE</button>
+                    <button id="btn-timeattack" class="menu-btn">TIME ATTACK</button>
+                    <button id="btn-help" class="menu-btn">HOW TO PLAY</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Help Screen -->
+        <div id="help-screen" class="menu-overlay hidden">
+            <div class="menu-content">
+                <h2>HOW TO PLAY</h2>
+                <div class="help-content">
+                    <div class="help-section">
+                        <h3>Controls</h3>
+                        <p><strong>Left Side:</strong> Virtual Joystick - Move left/right</p>
+                        <p><strong>Right Side:</strong> Action Buttons</p>
+                        <ul>
+                            <li>ATK - Punch combo (3-hit chain)</li>
+                            <li>KICK - Heavy kick attack</li>
+                            <li>JUMP - Jump up</li>
+                            <li>SPEC - Special attack (uses energy)</li>
+                            <li>BLOCK - Reduce incoming damage</li>
+                            <li>DASH - Quick dodge</li>
+                        </ul>
+                    </div>
+                    <div class="help-section">
+                        <h3>Enemies</h3>
+                        <p>🧟 Basic Zombie - Slow, weak</p>
+                        <p>🏃 Fast Zombie - Quick, agile</p>
+                        <p>💪 Tank Zombie - High health, heavy damage</p>
+                        <p>🦴 Ranged Zombie - Throws projectiles</p>
+                        <p>👹 Boss - Multi-phase, powerful</p>
+                    </div>
+                    <div class="help-section">
+                        <h3>Goal</h3>
+                        <p>Defeat zombies, build combos, reach the portal!</p>
+                    </div>
+                </div>
+                <button id="btn-help-back" class="menu-btn">BACK</button>
+            </div>
+        </div>
+        
+        <!-- Level Complete Screen -->
+        <div id="level-complete" class="menu-overlay hidden">
+            <div class="menu-content">
+                <h2>LEVEL COMPLETE!</h2>
+                <div class="stats">
+                    <div class="stat">Time: <span id="stat-time">0:00</span></div>
+                    <div class="stat">Kills: <span id="stat-kills">0</span></div>
+                    <div class="stat">Max Combo: <span id="stat-combo">0</span></div>
+                    <div class="stat">Score: <span id="stat-score">0</span></div>
+                    <div class="stat rank">Rank: <span id="stat-rank">C</span></div>
+                </div>
+                <button id="btn-next-level" class="menu-btn">NEXT LEVEL</button>
+                <button id="btn-main-menu-complete" class="menu-btn">MAIN MENU</button>
+            </div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div id="game-over" class="menu-overlay hidden">
+            <div class="menu-content">
+                <h2>GAME OVER</h2>
+                <div class="stats">
+                    <div class="stat">Final Score: <span id="final-score">0</span></div>
+                    <div class="stat">Zombies Defeated: <span id="final-kills">0</span></div>
+                </div>
+                <button id="btn-retry" class="menu-btn">TRY AGAIN</button>
+                <button id="btn-main-menu-over" class="menu-btn">MAIN MENU</button>
+            </div>
+        </div>
+        
+        <!-- Pause Menu -->
+        <div id="pause-menu" class="menu-overlay hidden">
+            <div class="menu-content">
+                <h2>PAUSED</h2>
+                <button id="btn-resume" class="menu-btn">RESUME</button>
+                <button id="btn-pause-menu" class="menu-btn">MAIN MENU</button>
+            </div>
+        </div>
+        
+        <!-- Pause Button -->
+        <button id="btn-pause" class="pause-btn hidden">⏸</button>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
